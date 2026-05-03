@@ -32,18 +32,17 @@ void BuscarNombrePorId(int id, char *V[], int cantPersonas) {
 
 
 int main() {
+    //Declaracion de variables:
     char *V[5];
     int cantPersonas = 5;
     char buff[100];
-
     char palabra[100];
-    int pos;
+    int pos,id, opcion;
+    
 
-    int id;
-
-
+    printf("\n-------CARGA DE NOMBRES-------\n");
     for (int i = 0; i < cantPersonas; i++) {
-        printf("Ingrese el nombre de la persona %d: ", i + 1);
+        printf("Ingrese el nombre de la persona %d: \n", i + 1);
         scanf("%s", buff);
 
         int longNombre = strlen(buff);
@@ -51,26 +50,41 @@ int main() {
         strcpy(V[i], buff);
     }
 
+    //mostramos los nombres cargados:
     MostrarPersonas(V, cantPersonas);
 
 
-    printf("Ingrese una palabra clave: ");
-    scanf("%s", palabra);
+    //interfaz de usuario:
+    printf("\n -MENU DE BUSQUEDA-\n");
+    printf("1.BUSCAR POR ID \n");
+    printf("2.BUSCAR POR NOMBRE \n");
+    printf("Ingrese una opcion: ");
+    scanf("%d", opcion);
 
-    pos = BuscarNombrePorPalabra(palabra, V, cantPersonas);
+    if (opcion == 1)
+    {
+        printf("Ingrese un ID: ");
+        scanf("%d", &id);
+        BuscarNombrePorId(id, V, cantPersonas);
+    }else if (opcion == 2)
+    {
+        printf("Ingrese una palabra clave: ");
+        scanf("%s", palabra);
 
-    if(pos != -1){
-        printf("Persona encontrada : %s", V[pos]);
-    }else{
-        printf("No hubo coincidencias con la palabra clave ingresada.");
+        pos = BuscarNombrePorPalabra(palabra, V, cantPersonas);
+
+        if(pos != -1){
+            printf("Persona encontrada : %s", V[pos]);
+        }else{
+            printf("No hubo coincidencias con la palabra clave ingresada.");
+        }
+        
+    }else
+    {
+        printf("OPCION INVALIDA.\n");
     }
-
-    printf("Ingrese un ID: ");
-    scanf("%d", &id);
-
-    BuscarNombrePorId(id, V, cantPersonas);
-
-
+    
+    //liberamos memoria:
     for (int i = 0; i < cantPersonas; i++) {
         free(V[i]);
     }
