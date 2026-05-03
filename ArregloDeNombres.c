@@ -33,21 +33,26 @@ void BuscarNombrePorId(int id, char *V[], int cantPersonas) {
 
 int main() {
     //Declaracion de variables:
-    char *V[5];
-    int cantPersonas = 5;
+    char **V; //V va a apuntar a un vector de punteros a nombres
+    int cantPersonas;
     char buff[100];
     char palabra[100];
     int pos,id, opcion;
     
+    //pedimos la cantidad de personas:
+    printf("Ingrese la cantidad de Personas: ");
+    scanf("%d", &cantPersonas);
+
+    V = malloc(cantPersonas * sizeof(char *)); 
 
     printf("\n-------CARGA DE NOMBRES-------\n");
     for (int i = 0; i < cantPersonas; i++) {
         printf("Ingrese el nombre de la persona %d: \n", i + 1);
-        scanf("%s", buff);
+        scanf("%s", buff);//lee el nombre que escribe el usuario y lo guarda temporalmente en buff(sin "&")
 
-        int longNombre = strlen(buff);
-        V[i] = malloc((longNombre + 1) * sizeof(char));
-        strcpy(V[i], buff);
+        int longNombre = strlen(buff);                      
+        V[i] = malloc((longNombre + 1) * sizeof(char)); //segun la longitud de cada nombre ingresado pedimos el espacio a ocupar en la memoria
+        strcpy(V[i], buff); //copiamos lo que hay en el buff en nuestro vector V segun la posicion i.
     }
 
     //mostramos los nombres cargados:
@@ -88,6 +93,8 @@ int main() {
     for (int i = 0; i < cantPersonas; i++) {
         free(V[i]);
     }
+
+    free(V);
 
     return 0;
 }
